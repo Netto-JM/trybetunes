@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getUser } from '../services/userAPI';
+import Loading from './Loading';
 
 function Header() {
   const [isLoading, setIsLoading] = useState(true);
@@ -19,7 +20,7 @@ function Header() {
   return (
     <header data-testid="header-component">
       {isLoading ? (
-        <h1>Carregando...</h1>
+        <Loading />
       ) : (
         <h1 data-testid="header-user-name">{user}</h1>
       )}

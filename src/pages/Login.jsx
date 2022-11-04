@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import Loading from '../components/Loading';
 import { createUser } from '../services/userAPI';
 
 const clickHandler = async (event, name, history, setIsLoading) => {
@@ -24,7 +25,7 @@ function Login() {
   return (
     <div>
       {isLoading ? (
-        <h1>Carregando...</h1>
+        <Loading />
       ) : (
         <form data-testid="page-login">
           <input
