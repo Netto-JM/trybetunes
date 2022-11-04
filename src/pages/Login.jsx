@@ -31,6 +31,7 @@ function Login() {
             type="text"
             placeholder="Nome"
             data-testid="login-name-input"
+            value={ name }
             onChange={ ({ target: { value } }) => { setName(value); } }
           />
           <button
