@@ -10,7 +10,6 @@ function Header() {
   useEffect(() => {
     const fetchUser = async () => {
       const { name } = await getUser();
-      console.log(name);
       setUser(name);
       setIsLoading(false);
     };
