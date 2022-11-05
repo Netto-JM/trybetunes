@@ -5,9 +5,11 @@ import AlbumCard from './AlbumCard';
 function AlbumsList(props) {
   const { albumtList, artistName } = props;
   const albumsResultText = `Resultado de álbuns de: ${artistName}`;
+
   const albumCards = albumtList.map((album) => (
     <AlbumCard key={ album.collectionId } album={ album } />
   ));
+
   return (
     <div>
       {albumtList[0] ? (
