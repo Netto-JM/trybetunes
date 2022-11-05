@@ -7,7 +7,6 @@ import AlbumCard from '../components/AlbumCard';
 function Album(props) {
   const { match } = props;
   const { params: { id } } = match;
-  console.log(match);
 
   const [albumInfo, setAlbumInfo] = useState({});
   const [songList, setSongList] = useState([]);
@@ -17,7 +16,6 @@ function Album(props) {
       const requestResult = await getMusics(id);
       setAlbumInfo(requestResult[0]);
       setSongList([...requestResult.slice(1)]);
-      console.log('albumInfo: ', requestResult[0]);
       console.log('songList: ', [...requestResult.slice(1)]);
     };
 
