@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import getMusics from '../services/musicsAPI';
 import Header from '../components/Header';
 import AlbumCard from '../components/AlbumCard';
+import MusicCard from '../components/MusicCard';
 
 function Album(props) {
   const { match } = props;
@@ -16,17 +17,20 @@ function Album(props) {
       const requestResult = await getMusics(id);
       setAlbumInfo(requestResult[0]);
       setSongList([...requestResult.slice(1)]);
-      console.log('songList: ', [...requestResult.slice(1)]);
     };
 
     fetchMusic();
   }, [id]);
 
-  console.log(id);
+  const songCards = songList.map((song) => (
+    <MusicCard key={ song.trackId } song={ song } />
+  ));
+
   return (
     <div data-testid="page-album">
       <Header />
       <AlbumCard album={ albumInfo } />
+      { songCards }
     </div>
   );
 }
