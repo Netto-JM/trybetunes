@@ -13,8 +13,8 @@ function AlbumCard(props) {
       >
         <img src={ artworkUrl100 } alt={ collectionName } />
       </Link>
-      <p>{collectionName}</p>
-      <p>{artistName}</p>
+      <p data-testid="album-name">{collectionName}</p>
+      <p data-testid="artist-name">{artistName}</p>
     </div>
   );
 }
