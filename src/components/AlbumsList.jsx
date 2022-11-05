@@ -1,15 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import AlbumCard from './AlbumCard';
 
 function AlbumsList(props) {
   const { albumtList, artistName } = props;
-  console.log('albumtList:', albumtList);
-  console.log('artistName:', artistName);
   const albumsResultText = `Resultado de álbuns de: ${artistName}`;
+  const albumCards = albumtList.map((album) => (
+    <AlbumCard key={ album.collectionId } album={ album } />
+  ));
   return (
     <div>
       {albumtList[0] ? (
-        <p>{albumsResultText}</p>
+        <>
+          <p>{albumsResultText}</p>
+          {albumCards}
+        </>
       ) : (
         <p>Nenhum álbum foi encontrado é exibida</p>
       )}
