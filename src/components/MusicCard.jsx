@@ -1,14 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function MusicCard() {
+function MusicCard(props) {
+  const { song } = props;
+  const { trackName, previewUrl } = song;
   return (
-    <div>MusicCard</div>
+    <div>
+      <p>{trackName}</p>
+      <audio data-testid="audio-component" src={ previewUrl } controls>
+        <track kind="captions" />
+        O seu navegador não suporta o elemento
+        {' '}
+        <code>audio</code>
+      </audio>
+    </div>
   );
 }
 
 MusicCard.propTypes = {
-  album: PropTypes.shape({
+  song: PropTypes.shape({
     artistId: PropTypes.number.isRequired,
     artistName: PropTypes.string.isRequired,
     artistViewUrl: PropTypes.string.isRequired,
