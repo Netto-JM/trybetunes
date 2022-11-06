@@ -13,12 +13,14 @@ function Album(props) {
 
   const [albumInfo, setAlbumInfo] = useState({});
   const [songList, setSongList] = useState([]);
+  const [checkList, setCheckList] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
   const toggleFavorite = async (checked, song) => {
-    setIsLoading(true);
     console.log('check: ', checked);
     console.log('song: ', song);
+    setIsLoading(true);
+    setCheckList((prevState) => ({ ...prevState, [song.trackId]: checked }));
     if (checked) await addSong(song);
     else await removeSong(song);
     setIsLoading(false);
@@ -35,20 +37,25 @@ function Album(props) {
   }, [id]);
 
   const songCards = songList.map((song) => (
-    <MusicCard key={ song.trackId } song={ song } toggleFavorite={ toggleFavorite } />
+    <MusicCard
+      key={ song.trackId }
+      song={ song }
+      toggleFavorite={ toggleFavorite }
+      isChecked={ checkList[song.trackId] || false }
+    />
   ));
 
   return (
     <div data-testid="page-album">
+      <Header />
       {isLoading ? (
         <Loading />
       ) : (
         <>
-          <Header />
           <AlbumCard album={ albumInfo } />
+          { songCards }
         </>
       )}
-      { songCards }
     </div>
   );
 }
