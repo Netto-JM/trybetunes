@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 function MusicCard(props) {
   const { song } = props;
-  const { trackName, previewUrl } = song;
+  const { trackName, previewUrl, trackId } = song;
   return (
     <div>
       <p>{trackName}</p>
@@ -13,6 +13,10 @@ function MusicCard(props) {
         {' '}
         <code>audio</code>
       </audio>
+      <label htmlFor="favorite" data-testid={ `checkbox-music-${trackId}` }>
+        Favorita
+        <input type="checkbox" name="favorite" id="favorite" />
+      </label>
     </div>
   );
 }
@@ -30,9 +34,9 @@ MusicCard.propTypes = {
     collectionId: PropTypes.number.isRequired,
     collectionName: PropTypes.string.isRequired,
     collectionPrice: PropTypes.number.isRequired,
-    collectionViewUrl: PropTypes.number.isRequired,
-    country: PropTypes.number.isRequired,
-    currency: PropTypes.number.isRequired,
+    collectionViewUrl: PropTypes.string.isRequired,
+    country: PropTypes.string.isRequired,
+    currency: PropTypes.string.isRequired,
     discCount: PropTypes.number.isRequired,
     discNumber: PropTypes.number.isRequired,
     isStreamable: PropTypes.bool.isRequired,
