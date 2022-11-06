@@ -3,20 +3,19 @@ import { useHistory } from 'react-router-dom';
 import Loading from '../components/Loading';
 import { createUser } from '../services/userAPI';
 
-const clickHandler = async (event, name, history, setIsLoading) => {
-  setIsLoading(true);
-  event.preventDefault();
-  await createUser({ name });
-  setIsLoading(false);
-  history.push('/search');
-};
-
 function Login() {
   const [name, setName] = useState('');
   const [isDisable, setIsDisable] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
   const history = useHistory();
+
+  const clickHandler = async () => {
+    setIsLoading(true);
+    await createUser({ name });
+    setIsLoading(false);
+    history.push('/search');
+  };
 
   useEffect(() => {
     setIsDisable(name.length <= 2);
@@ -39,7 +38,7 @@ function Login() {
             type="button"
             data-testid="login-submit-button"
             disabled={ isDisable }
-            onClick={ (event) => { clickHandler(event, name, history, setIsLoading); } }
+            onClick={ clickHandler }
           >
             Entrar
           </button>
