@@ -4,23 +4,6 @@ import Header from '../components/Header';
 import Loading from '../components/Loading';
 import searchAlbumsAPI from '../services/searchAlbumsAPI';
 
-const clickHandler = async (searchInput, stateSetters) => {
-  const [
-    setIsLoading,
-    setSearchInput,
-    setSearchResults,
-    setGotResults,
-    setArtistName,
-  ] = stateSetters;
-  setSearchInput('');
-  setIsLoading(true);
-  const results = await searchAlbumsAPI(searchInput);
-  setSearchResults(results);
-  setArtistName(searchInput);
-  setGotResults(true);
-  setIsLoading(false);
-};
-
 function Search() {
   const [searchInput, setSearchInput] = useState('');
   const [artistName, setArtistName] = useState('');
@@ -29,17 +12,19 @@ function Search() {
   const [isLoading, setIsLoading] = useState(false);
   const [gotResults, setGotResults] = useState(false);
 
+  const clickHandler = async () => {
+    setSearchInput('');
+    setIsLoading(true);
+    const results = await searchAlbumsAPI(searchInput);
+    setSearchResults(results);
+    setArtistName(searchInput);
+    setGotResults(true);
+    setIsLoading(false);
+  };
+
   useEffect(() => {
     setIsDisable(searchInput.length < 2);
   }, [searchInput]);
-
-  const clkStateSetters = [
-    setIsLoading,
-    setSearchInput,
-    setSearchResults,
-    setGotResults,
-    setArtistName,
-  ];
 
   const showResults = gotResults && !isLoading;
 
@@ -61,7 +46,7 @@ function Search() {
             type="button"
             data-testid="search-artist-button"
             disabled={ isDisable }
-            onClick={ () => { clickHandler(searchInput, clkStateSetters); } }
+            onClick={ clickHandler }
           >
             Pesquisar
           </button>
