@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 function MusicCard(props) {
-  const { song } = props;
+  const { song, toggleFavorite } = props;
   const { trackName, previewUrl, trackId } = song;
+
+  const [isChecked, setIsChecked] = useState(false);
+
+  const changeHandler = ({ target: { checked } }) => {
+    setIsChecked((prevState) => !prevState);
+    toggleFavorite(checked, song);
+  };
+
   return (
     <div>
       <p>{trackName}</p>
@@ -15,7 +23,13 @@ function MusicCard(props) {
       </audio>
       <label htmlFor="favorite" data-testid={ `checkbox-music-${trackId}` }>
         Favorita
-        <input type="checkbox" name="favorite" id="favorite" />
+        <input
+          type="checkbox"
+          name="favorite"
+          id="favorite"
+          checked={ isChecked }
+          onChange={ changeHandler }
+        />
       </label>
     </div>
   );
@@ -55,6 +69,7 @@ MusicCard.propTypes = {
     trackViewUrl: PropTypes.string.isRequired,
     wrapperType: PropTypes.string.isRequired,
   }).isRequired,
+  toggleFavorite: PropTypes.func.isRequired,
 };
 
 export default MusicCard;

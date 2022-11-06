@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import getMusics from '../services/musicsAPI';
+import { addSong, removeSong } from '../services/favoriteSongsAPI';
 import Header from '../components/Header';
 import AlbumCard from '../components/AlbumCard';
 import MusicCard from '../components/MusicCard';
+import Loading from '../components/Loading';
 
 function Album(props) {
   const { match } = props;
@@ -11,6 +13,16 @@ function Album(props) {
 
   const [albumInfo, setAlbumInfo] = useState({});
   const [songList, setSongList] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const toggleFavorite = async (checked, song) => {
+    setIsLoading(true);
+    console.log('check: ', checked);
+    console.log('song: ', song);
+    if (checked) await addSong(song);
+    else await removeSong(song);
+    setIsLoading(false);
+  };
 
   useEffect(() => {
     const fetchMusic = async () => {
@@ -23,13 +35,19 @@ function Album(props) {
   }, [id]);
 
   const songCards = songList.map((song) => (
-    <MusicCard key={ song.trackId } song={ song } />
+    <MusicCard key={ song.trackId } song={ song } toggleFavorite={ toggleFavorite } />
   ));
 
   return (
     <div data-testid="page-album">
-      <Header />
-      <AlbumCard album={ albumInfo } />
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          <Header />
+          <AlbumCard album={ albumInfo } />
+        </>
+      )}
       { songCards }
     </div>
   );
