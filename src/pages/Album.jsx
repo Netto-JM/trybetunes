@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import getMusics from '../services/musicsAPI';
-import { addSong, removeSong } from '../services/favoriteSongsAPI';
+import { addSong, getFavoriteSongs, removeSong } from '../services/favoriteSongsAPI';
 import Header from '../components/Header';
 import AlbumCard from '../components/AlbumCard';
 import MusicCard from '../components/MusicCard';
 import Loading from '../components/Loading';
 
 function Album(props) {
-  const { match } = props;
+  const { match, checkList, setCheckList } = props;
   const { params: { id } } = match;
 
   const [albumInfo, setAlbumInfo] = useState({});
   const [songList, setSongList] = useState([]);
-  const [checkList, setCheckList] = useState({});
+  // const [checkList, setCheckList] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
   const toggleFavorite = async (checked, song) => {
@@ -31,7 +31,13 @@ function Album(props) {
       setSongList([...requestResult.slice(1)]);
     };
 
+    const fetchFavorites = async () => {
+      const requestResult = await getFavoriteSongs();
+      console.log('here: ', requestResult);
+    };
+
     fetchMusic();
+    fetchFavorites();
   }, [id]);
 
   const songCards = songList.map((song) => (
@@ -67,6 +73,10 @@ Album.propTypes = {
       id: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
+  checkList: PropTypes.shape({
+    trackId: PropTypes.number,
+  }).isRequired,
+  setCheckList: PropTypes.func.isRequired,
 };
 
 export default Album;
