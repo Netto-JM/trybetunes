@@ -8,19 +8,27 @@ import MusicCard from '../components/MusicCard';
 import Loading from '../components/Loading';
 
 function Album(props) {
-  const { match, checkList, setCheckList } = props;
+  const { match } = props;
   const { params: { id } } = match;
 
   const [albumInfo, setAlbumInfo] = useState({});
   const [songList, setSongList] = useState([]);
-  // const [checkList, setCheckList] = useState({});
+  const [checkList, setCheckList] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+
+  const fetchFavorites = async () => {
+    const requestResult = await getFavoriteSongs();
+    const songsTrackId = requestResult.map((song) => ({ [song.trackId]: true }));
+    const favoriteSongs = {};
+    songsTrackId.forEach((trackId) => Object.assign(favoriteSongs, trackId));
+    setCheckList(favoriteSongs);
+  };
 
   const toggleFavorite = async (song, checked) => {
     setIsLoading(true);
-    setCheckList((prevState) => ({ ...prevState, [song.trackId]: checked }));
     if (checked) await addSong(song);
     else await removeSong(song);
+    await fetchFavorites();
     setIsLoading(false);
   };
 
@@ -29,11 +37,6 @@ function Album(props) {
       const requestResult = await getMusics(id);
       setAlbumInfo(requestResult[0]);
       setSongList([...requestResult.slice(1)]);
-    };
-
-    const fetchFavorites = async () => {
-      const requestResult = await getFavoriteSongs();
-      console.log('here: ', requestResult);
     };
 
     fetchMusic();
@@ -73,10 +76,6 @@ Album.propTypes = {
       id: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
-  checkList: PropTypes.shape({
-    trackId: PropTypes.number,
-  }).isRequired,
-  setCheckList: PropTypes.func.isRequired,
 };
 
 export default Album;
