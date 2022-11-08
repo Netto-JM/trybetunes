@@ -16,7 +16,7 @@ function Album(props) {
   // const [checkList, setCheckList] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
-  const toggleFavorite = async (checked, song) => {
+  const toggleFavorite = async (song, checked) => {
     setIsLoading(true);
     setCheckList((prevState) => ({ ...prevState, [song.trackId]: checked }));
     if (checked) await addSong(song);
