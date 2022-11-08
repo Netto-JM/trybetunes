@@ -21,12 +21,16 @@ function MusicCard(props) {
           name="favorite"
           id={ trackId }
           checked={ isChecked }
-          onChange={ ({ target: { checked } }) => { toggleFavorite(checked, song); } }
+          onChange={ ({ target: { checked } }) => { toggleFavorite(song, checked); } }
         />
       </label>
     </div>
   );
 }
+
+MusicCard.defaultProps = {
+  isChecked: true,
+};
 
 MusicCard.propTypes = {
   song: PropTypes.shape({
@@ -63,7 +67,7 @@ MusicCard.propTypes = {
     wrapperType: PropTypes.string.isRequired,
   }).isRequired,
   toggleFavorite: PropTypes.func.isRequired,
-  isChecked: PropTypes.bool.isRequired,
+  isChecked: PropTypes.bool,
 };
 
 export default MusicCard;
