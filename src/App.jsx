@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Login from './pages/Login';
 import NotFound from './pages/NotFound';
@@ -9,18 +9,10 @@ import Profile from './pages/Profile';
 import Search from './pages/Search';
 
 function App() {
-  const [checkList, setCheckList] = useState({});
-
   return (
     <Switch>
       <Route exact path="/search" component={ Search } />
-      <Route
-        exact
-        path="/album/:id"
-        render={ (props) => (
-          <Album { ...props } checkList={ checkList } setCheckList={ setCheckList } />
-        ) }
-      />
+      <Route exact path="/album/:id" component={ Album } />
       <Route exact path="/profile/edit" component={ EditProfile } />
       <Route exact path="/favorites" component={ Favorites } />
       <Route exact path="/profile" component={ Profile } />
