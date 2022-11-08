@@ -13,14 +13,12 @@ function Album(props) {
 
   const [albumInfo, setAlbumInfo] = useState({});
   const [songList, setSongList] = useState([]);
-  const [checkList, setCheckList] = useState({});
+  const [checkList, setCheckList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchFavorites = async () => {
     const requestResult = await getFavoriteSongs();
-    const songsTrackId = requestResult.map((song) => ({ [song.trackId]: true }));
-    const favoriteSongs = {};
-    songsTrackId.forEach((trackId) => Object.assign(favoriteSongs, trackId));
+    const favoriteSongs = requestResult.map((song) => song.trackId);
     setCheckList(favoriteSongs);
   };
 
@@ -48,7 +46,7 @@ function Album(props) {
       key={ song.trackId }
       song={ song }
       toggleFavorite={ toggleFavorite }
-      isChecked={ checkList[song.trackId] || false }
+      isChecked={ checkList.includes(song.trackId) }
     />
   ));
 
