@@ -17,7 +17,11 @@ function Profile() {
     setUserImage(image);
     setUserName(name);
   };
-  fetchUser();
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
   return (
     <div data-testid="page-profile">
       <Header />
