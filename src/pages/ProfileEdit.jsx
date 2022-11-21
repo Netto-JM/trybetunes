@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import Header from '../components/Header';
-import { getUser } from '../services/userAPI';
+import { getUser, updateUser } from '../services/userAPI';
 
 function ProfileEdit() {
   const [userDescription, setUserDescription] = useState('');
@@ -8,6 +9,8 @@ function ProfileEdit() {
   const [userImage, setUserImage] = useState('');
   const [userName, setUserName] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
+
+  const history = useHistory();
 
   const fetchUser = async () => {
     const resolve = await getUser();
@@ -38,7 +41,14 @@ function ProfileEdit() {
   };
 
   const clickHandler = () => {
-    // some code
+    const updatedUser = {
+      name: userName,
+      email: userEmail,
+      image: userImage,
+      description: userDescription,
+    };
+    updateUser(updatedUser);
+    history.push('/profile');
   };
 
   useEffect(() => {
@@ -56,24 +66,28 @@ function ProfileEdit() {
         <img src={ userImage } alt={ userName } data-testid="profile-image" />
         <input
           data-testid="edit-input-image"
+          type="text"
           name="image"
           value={ userImage }
           onChange={ changeHandler }
         />
         <input
           data-testid="edit-input-name"
+          type="text"
           name="name"
           value={ userName }
           onChange={ changeHandler }
         />
         <input
           data-testid="edit-input-email"
+          type="email"
           name="email"
           value={ userEmail }
           onChange={ changeHandler }
         />
         <input
           data-testid="edit-input-description"
+          type="text"
           name="description"
           value={ userDescription }
           onChange={ changeHandler }
