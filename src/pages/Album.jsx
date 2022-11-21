@@ -8,8 +8,7 @@ import MusicCard from '../components/MusicCard';
 import Loading from '../components/Loading';
 
 function Album(props) {
-  const { match } = props;
-  const { params: { id } } = match;
+  const { match: { params: { id } } } = props;
 
   const [albumInfo, setAlbumInfo] = useState({});
   const [songList, setSongList] = useState([]);
