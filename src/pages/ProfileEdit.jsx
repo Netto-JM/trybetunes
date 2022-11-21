@@ -21,25 +21,6 @@ function ProfileEdit() {
     setUserName(name);
   };
 
-  const changeHandler = ({ target: { name, value } }) => {
-    switch (name) {
-    case 'image':
-      setUserImage(value);
-      break;
-    case 'name':
-      setUserName(value);
-      break;
-    case 'email':
-      setUserEmail(value);
-      break;
-    case 'description':
-      setUserDescription(value);
-      break;
-    default:
-      break;
-    }
-  };
-
   const clickHandler = () => {
     const updatedUser = {
       name: userName,
@@ -69,28 +50,31 @@ function ProfileEdit() {
           type="text"
           name="image"
           value={ userImage }
-          onChange={ changeHandler }
+          onChange={ ({ target: { value } }) => { setUserImage(value); } }
         />
         <input
           data-testid="edit-input-name"
           type="text"
           name="name"
           value={ userName }
-          onChange={ changeHandler }
+          onChange={ ({ target: { value } }) => { setUserName(value); } }
+
         />
         <input
           data-testid="edit-input-email"
           type="email"
           name="email"
           value={ userEmail }
-          onChange={ changeHandler }
+          onChange={ ({ target: { value } }) => { setUserEmail(value); } }
+
         />
         <input
           data-testid="edit-input-description"
           type="text"
           name="description"
           value={ userDescription }
-          onChange={ changeHandler }
+          onChange={ ({ target: { value } }) => { setUserDescription(value); } }
+
         />
         <button
           data-testid="edit-button-save"
